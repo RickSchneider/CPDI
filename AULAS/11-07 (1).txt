@@ -1,0 +1,27 @@
+-- Chama a biblioteca de física para o código. 
+local physics = require ("physics")
+-- Inicia a física no projeto. 
+physics.start ()
+physics.setDrawMode ("hybrid") -- normal, debug, hybrid
+
+local bg = display.newImageRect ("imagens/background.png", 360, 570 )
+bg.x = display.contentCenterX
+bg.y = display.contentCenterY 
+
+local plataforma = display.newImageRect ("imagens/platform.png", 300, 50)
+plataforma.x = display.contentCenterX
+plataforma.y = display.contentHeight - 25
+physics.addBody (plataforma, "static")
+
+local balao = display.newImageRect ("imagens/balloon.png", 112, 112)
+balao.x = display.contentCenterX
+balao.y = display.contentCenterY
+balao.alpha = 0.8 
+physics.addBody (balao, "dynamic", {radius=50, bounce=0.4})
+
+local function cima ()
+		-- Comandos: (impulsoX, impulsoY, balao.x, balao.y)
+	balao:applyLinearImpulse (0, -0.75, balao.x, balao.y)
+end
+
+balao:addEventListener ("tap", cima)

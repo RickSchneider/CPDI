@@ -1,0 +1,116 @@
+local physics = require ("physics") -- Chama a biblioteca de física.
+physics.start () -- Iniciei a física no projeto
+
+-- Altera os pârametros de gravidade do projeto.
+	-- comandos   (gX, gY)
+physics.setGravity (0, 9.8)
+
+-- Altera a escala de visualização. Padrão 30
+physics.setScale (30)
+
+-- Apresenta a visualização dos corpos físicos.
+-- Normal: padrão, aparecem só os objetos.
+-- Hybrid: aparecem os objetos e os corpos físicos.
+-- Debug: aparecem só os corpos físicos.
+physics.setDrawMode ("hybrid")
+
+--Define a precisão dos cálculos de posição do motor.
+-- Utilizado para melhorar o sensor de iterações. Padrão é 3.
+physics.setPositionIterations (3) 
+
+-- Define a precisão dos cálculos de velocidade do motor. 
+-- Utilizado para melhorar o sensor de velocidade. Padrão é 8.
+physics.setVelocityIterations (8) 
+
+-- Controla se a física contínua está habilitada ou não. O padrão é false.
+--Parâmetro booleano, usa-se true ou false. 
+physics.setContinuous (false)
+
+-- Utiliza-se para obter a média de todos os pontos de contato em uma colisão.
+--Parâmetro booleano, usa-se true ou false. Padrão false.
+physics.setAverageCollisionPositions (false)
+
+-- Define a origem do conteúdo como o ponto de referência nos eventos físicos de colisão.
+--Parâmetro booleano, usa-se true ou false. Padrão false.
+physics.setReportCollisionsInContentCoordinates(false)
+
+-- Permite que erros físicos extras sejam detectados pelo box. 
+--Parâmetro booleano, usa-se true ou false. Padrão true.
+physics.setDebugErrorsEnabled (true)
+
+--Especificar simulação baseada em quadros (aproximada)
+-- 0 é o padrão. Escala decimal.
+physics.setTimeStep (0)
+
+-- Remover a barra de notificações da tela.
+display.setStatusBar (display.HiddenStatusBar)
+
+local base = display.newRect (display.contentCenterX, 450, 400, 30 )
+physics.addBody (base, "static") -- Adiciona corpo estático.
+
+local circulo = display.newCircle (30, 50, 30)
+circulo:setFillColor (1, 0.3, 0.6)
+-- Adiciona corpo dinâmico circular 
+physics.addBody (circulo, "dynamic", {radius=30, bounce=0.7 }) 
+-- Definir a velocidade de movimentação angular em graus por segundo. 
+circulo.angularVelocity = 100
+-- Define a desaceleração da velocidade angular. Onde valores negativos aumentam
+-- a velocidade. O padrão é 0. 
+circulo.angularDamping = 0
+
+local quadrado = display.newRect (200, 50, 50, 50 )
+physics.addBody (quadrado, "dynamic", {friction=1.5}) -- Adiciona corpo dinâmico.
+-- Faz com que o corpo "durma" até que uma colisão o "acorde". Padrão é true. 
+--quadrado.isAwake = true   
+
+local circulo1 = display.newCircle (100, 50, 30)
+circulo1:setFillColor (0, 0.5, 1)
+physics.addBody (circulo1, "kinematic", {radius=30})
+-- Verificar o estado ativo do corpo. True corpo ativo. False corpo inativo.
+circulo1.isBodyActive = true
+-- Define a velocidade linear do corpo. Parâmetros x e y.  
+circulo1:setLinearVelocity (10, 0)
+
+local quadrado1 = display.newRect (280, 50, 50, 50 )
+quadrado1:setFillColor (0, 0.5, 1)
+-- Adiciona corpo físico a variável (imagem/forma, etc.)
+physics.addBody (quadrado1)
+-- Define o tipo de corpo do objeto. Parâmetros: "dynamic", "static", "kinematic"
+quadrado1.bodyType = "kinematic"
+-- Define se o corpo físico pode "dormir". False mantém o corpo acordado e true
+-- o padrão. 
+quadrado1.isSleepingAllowed = true 
+
+local vertices =  {0,-55, 13.5,-17.5, 52.5,-17.5, 21.5,8, 32.5,45, 0,22.5, -32.5,45, 
+-21.5,7.5, -52.5,-17.5, -14.5,-17.5}
+
+local shapeEstrela = {0,-50, 52.5,-12.5, 32.5,50, -32.5,50, -52.55,-12.5 }
+local estrela = display.newPolygon (80, 100, vertices )
+physics.addBody (estrela, "dynamic", {shape=shapeEstrela})
+-- Define se o corpo físico possui uma rotação fixa. 
+--False é o padrão. True não "gira".
+estrela.isFixedRotation = true 
+
+local retangulo = display.newRect (130, -50, 100, 80)
+-- Adicionar física em box {metadeLargura=, metadeAltura=, x=0, y=0, angulo=0}
+physics.addBody (retangulo, "dynamic", {isSensor=false, box= {halfWidth=50, halfHeight= 40, x=0, y=0, angle=90}})
+-- Altera a escala de gravidade do objeto. 1 padrão, menor que 1 diminui a
+--escala, -1 inverte a escala e maior que 1 aumenta a escala.
+retangulo.gravityScale = 1
+retangulo:setLinearVelocity (100, 0)
+
+-- Define a desaceleração da velocidade linear. Onde valores negativos aumentam
+-- a velocidade. O padrão é 0. 
+retangulo.linearDamping = 0.8
+
+-- Define se o objeto é uma bala, ativa a detecção de colisão contínua. 
+--Padrão false.
+--variavel.isBullet= true 
+
+-- density: atualiza o parâmetro da densidade do objeto cujo padrão é a
+-- densidade da água (1), maior é mais pesado e menor mais leve.  
+-- {density=}
+
+
+--Friction: quantidade de atrito. de 0 a 1. Padrão é 0;
+-- 1.0 atrito forte, 0 sem atrito.
