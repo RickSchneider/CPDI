@@ -56,7 +56,7 @@ function player.novo(grupoMain)
         local sprite = graphics.newImageSheet ("imagens/button.png", spriteOpcoes)
 
         local botaoCima = display.newImageRect (grupoMain, sprite, 4, 109*0.6, 101*0.6)
-        botaoCima.x = 260
+        botaoCima.x = 280
         botaoCima.y = 450
         botaoCima.rotation = -90
 
@@ -77,6 +77,24 @@ function player.novo(grupoMain)
             player.y = player.y + 10
         end
         botaoBaixo:addEventListener("tap", baixo)
-end
 
+
+	local botaoTiro = display.newImageRect (grupoMain, sprite, 5, 109 *0.6, 101*0.6)
+	botaoTiro.x = 225
+	botaoTiro.y = 450
+
+	local function atirar()
+		local feiticoPlayer = display.newImageRect(grupoMain, "imagens/laserAzul.png",583*0.1, 428*0.1)
+		feiticoPlayer.x = player.x
+		feiticoPlayer.y = player.y +35
+		physics.addBody(feiticoPlayer,"dynamic",{isSensor = true})
+		transition.to (feiticoPlayer,{x=500, time = 900,
+			onComplete = function () display.remove (feiticoPlayer) end}) 
+		feiticoPlayer.myName = "Stupefy"
+		local feitico = audio.loadSound ("audio/feitico.mp3")
+		audio.play(feitico)
+	end
+	botaoTiro:addEventListener("tap", atirar)
+
+end
 return player
