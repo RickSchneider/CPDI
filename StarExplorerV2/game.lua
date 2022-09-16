@@ -67,11 +67,11 @@ local somExplosao
 local musicaFundo
 
 -- Todas as imagens do grupo ficarão ao fundo
-local backGroup = display.newGroup ()
+local backGroup
 -- Todas as imagens do grupo ficarão no meio 
-local mainGroup = display.newGroup ()
+local mainGroup
 -- Todas as imagens do grupo ficarão a frente
-local uiGroup = display.newGroup ()
+local uiGroup
 
 local function atualizaText ()
 	vidasText.text = "Vidas: " .. vidas
@@ -177,6 +177,15 @@ local function restauraNave ()
 	})
 end 
 
+local function endGame ()
+	composer.gotoScene ("menu", {time=800,effect = "crossFade"})
+end
+
+local function recordes ()
+	composer.setVariable ("finalScore", pontos)
+	composer.gotoScene ("recordes", {time=800, effect = "crossFade"})
+end
+
 local function onCollision (event)
 
 	if (event.phase == "began") then
@@ -215,6 +224,19 @@ local function onCollision (event)
 
 			if (vidas == 0) then 
 				display.remove (nave)
+
+				local gameOver = display.newImageRect (uiGroup,"imagens/gameOver.png", 360, 360)
+				gameOver.x = display.contentCenterX
+				gameOver.y = display.contentCenterY
+
+				local restart = display.newImageRect (uiGroup,"imagens/restart.png", 474*0.3, 525*0.3)
+				restart.x = display.contentCenterX
+				restart.y = 750
+
+				local botaoRecordes = display.newText (uiGroup,"Recordes", display.contentCenterX, 910, Arial, 80)
+				restart:addEventListener("tap", endGame)
+				botaoRecordes:setFillColor(0.75, 0.78, 1)
+				botaoRecordes:addEventListener("tap",endGame)
 			else 
 				nave.alpha = 0
 				timer.performWithDelay (1000, restauraNave)
@@ -232,9 +254,18 @@ end -- Function
 
 -- create()
 function scene:create( event )
+	physics.pause ()
 
 	local sceneGroup = self.view
 	-- É executado quando a cena é aberta pela primeira vez, mas ainda não aparece na tela.
+    backGroup = display.newGroup ()
+	sceneGroup:insert(backGroup)
+	
+	mainGroup = display.newGroup ()
+	sceneGroup:insert(mainGroup)
+
+	uiGroup = display.newGroup ()
+	sceneGroup:insert(uiGroup)
 
 	local bg = display.newImageRect (backGroup, "imagens/bg.png", 800, 1400)
 	bg.x = display.contentCenterX
@@ -270,7 +301,7 @@ function scene:show( event )
 
 	elseif ( phase == "did" ) then
 		-- Acontece imediatamente após a cena estar ativa
-
+		physics.start()
 		Runtime:addEventListener ("collision", onCollision)
 
 		gameLoopTimer = timer.performWithDelay (700, gameLoop, 0)
@@ -289,10 +320,13 @@ function scene:hide( event )
 
 	if ( phase == "will" ) then
 		-- Imediatamente antes da cena sair da tela.
-
+		timer.cancel (gameLoopTimer)
 	elseif ( phase == "did" ) then
 		-- Imediatamente após a cena sair da tela.
-
+		Runtime.removeEventListener ("collision", onCollision)
+		physics.pause ()
+		audio.stop (1)
+		composer.remove ("game")
 	end
 end
 
@@ -302,7 +336,9 @@ function scene:destroy( event )
 
 	local sceneGroup = self.view
 	-- Destruir informações do create que não estão relacionadas com os objetos de exibição.
-
+	audio.dispose (somExplosao)
+	audio.dispose (somTiro)
+	audio.dispose (musicaFundo)
 end
 
 
