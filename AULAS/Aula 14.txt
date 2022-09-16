@@ -1,0 +1,35 @@
+local physics = require ("physics") -- Chama a biblioteca de física.
+physics.start () -- Iniciei a física no projeto
+
+-- Altera os pârametros de gravidade do projeto.
+	-- comandos   (gX, gY)
+physics.setGravity (0, 6)
+
+-- Altera a escala de visualização. Padrão 30
+physics.setScale (30)
+
+-- Apresenta a visualização dos corpos físicos.
+-- Normal: padrão, aparecem só os objetos.
+-- Hybrid: aparecem os objetos e os corpos físicos.
+-- Debug: aparecem só os corpos físicos.
+physics.setDrawMode ("debug")
+
+
+
+local base = display.newRect (display.contentCenterX, 450, 400, 30 )
+physics.addBody (base, "static") -- Adiciona corpo estático.
+
+local circulo = display.newCircle (30, 50, 30)
+-- Adiciona corpo dinâmico circular 
+physics.addBody (circulo, "dynamic", {radius=30}) 
+
+local quadrado = display.newRect (200, 50, 50, 50 )
+physics.addBody (quadrado, "dynamic") -- Adiciona corpo dinâmico.
+
+local circulo1 = display.newCircle (100, 50, 30)
+circulo1:setFillColor (0, 0.5, 1)
+physics.addBody (circulo1, "kinematic")
+
+local quadrado1 = display.newRect (280, 50, 50, 50 )
+quadrado1:setFillColor (0, 0.5, 1)
+physics.addBody (quadrado1, "kinematic")

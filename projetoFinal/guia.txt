@@ -1,0 +1,49 @@
+compostagem - processos de compostagem, produtos que possamos utilizar para fazer compostagem.
+ods3 - dependencia quimica
+ods3 - vacinação
+metodos contraceptivos
+
+livros onde conseguimos passar informações das ods para que possamos passar o conhecimento para as pessoas
+
+
+doenças mais frequentes
+
+
+recolher itens, desses itens ter a possibilidade de vender, com o dinheiro
+os itens orgânicos podem ser utilizados para fazer a compostagem
+produtos organicos apodrecem, fungos geram doenças e medicamentos podem evitar doença ou curar doença, utilizado demais pode gerar dependencias.
+       
+
+estudar perspective
+
+
+estilo: cartoon
+
+pegar como base: https://www.youtube.com/shorts/qAIJGBNrmuo
+
+objetivo: recolher lixo e fazer lucro 
+
+onde guardar produto: inventario/mochila
+
+locais:
+script - coleta
+script - venda/compra
+			-"loja"
+
+
+produtos
+item coletavel:
+-lata
+-organico
+-vidro
+-plastico
+-papel
+
+
+
+player correndo
+
+trajeto em linha reta
+linha inicial e de largada
+percurso com produtos randomicos e quantidade randomica
+Valor salvo como record

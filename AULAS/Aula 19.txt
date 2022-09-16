@@ -1,0 +1,69 @@
+local function detectarTap( event )
+ 
+    -- Código executado quando o botão é tocado.
+
+    print( "Objeto tocado: " .. tostring(event.target) )  -- "event.target" é o objeto tocado
+    -- tostring: para sequenciar
+    return true
+   -- "zera" todos os dados depois da função executada.
+end -- fecha a local function.
+ 
+local botaoTap = display.newRect( 200, 200, 200, 50 )
+botaoTap:addEventListener( "tap", detectarTap )  -- Adicione um ouvinte "tap" ao objeto
+
+
+local function tapDuplo( event )
+ 
+ -- Quando (o parâmetro número de taps for igual a 2 ) então
+    if ( event.numTaps == 2 ) then
+    	--Print para mostrar que o tap duplo realmente foi detectado.
+        print( "Objeto tocado duas vezes: " .. tostring(event.target) )
+  -- Senão
+    else
+    	-- nada acontece.
+        return true
+    end -- fecha o else.
+end -- fecha a function 
+ 
+local botaoTapDuplo = display.newRect( 100, 100, 200, 50 )
+botaoTapDuplo:addEventListener( "tap", tapDuplo )
+
+
+
+
+local function detectarTouch (event)
+	-- Tira print da localização x do toque
+	print ("Localização X do toque" .. event.x)
+	-- Tira print da localização y do toque
+	print ("Localização Y do toque" .. event.y)
+end 
+
+local botao = display.newRect (100, 300, 200, 50)
+botao:addEventListener ("touch", detectarTouch) -- Adiciona um listener "touch" ao objeto
+
+
+local function fasesToque( event )
+ 
+ -- se (a fase de evento for igual a "began") então 
+    if ( event.phase == "began" ) then
+        -- Código executado quando o botão é tocado
+        print( "Objeto tocado = " .. tostring(event.target) )  -- "event.target" é o objeto tocado
+-- entretanto se (a fase de evento for igual a "moved") então 
+    elseif ( event.phase == "moved" ) then
+        -- Código executado quando o toque é movido sobre o objeto
+        print( "localização de toque nas seguintes coordenadas = X:" .. event.x .. ", Y:" .. event.y )
+-- porém se (a fase de evento for igual a "ended") então 
+    elseif ( event.phase == "ended" ) then
+-- Código executado quando o toque levanta o objeto
+        print( "Touch terminado no objeto: " .. tostring(event.target) )
+    
+    end -- fecha o if e os elseifs
+
+    return true  -- Impede a propagação de toque/toque para objetos subjacentes
+end -- fecha a function
+ 
+local botaoTouch = display.newRect( 200, 400, 200, 50 )
+botaoTouch:addEventListener( "touch", fasesToque ) -- Adiciona um listener "touch" ao objeto
+ 
+
+

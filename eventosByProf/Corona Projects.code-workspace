@@ -1,0 +1,16 @@
+{
+    "folders": [
+		{
+			"name": "Corona Projects",
+			"path": ".."
+		},
+		{
+			"name": "testeFisica",
+			"path": "..\\testeFisica"
+		},
+		{
+			"path": "..\\testev2"
+		}
+	],
+    "settings": {}
+}
